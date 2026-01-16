@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.22)
 
 project(VolumeSlider VERSION 0.0.1)
 
-# Point to JUCE
-set(JUCE_DIR "/Applications/JUCE/")
+# SET IN YOUR CLION PROFILE [ENVIRONMENT: JUCE_DIR=/path_to_your_application"
+set(JUCE_DIR $ENV{JUCE_DIR})
 add_subdirectory(${JUCE_DIR} JUCE)
 
 juce_add_plugin(VolumeSlider
