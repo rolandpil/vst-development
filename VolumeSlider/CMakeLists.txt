@@ -17,8 +17,8 @@ juce_generate_juce_header(VolumeSlider)
 
 target_sources(VolumeSlider
         PRIVATE
-        PluginEditor.cpp
-        PluginProcessor.cpp
+        src/PluginEditor.cpp
+        src/PluginProcessor.cpp
 )
 
 target_compile_definitions(VolumeSlider
