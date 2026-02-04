@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 project(VolumeSlider VERSION 0.0.1)
 
+set(CMAKE_CXX_STANDARD 20)
 # SET IN YOUR CLION PROFILE [ENVIRONMENT: JUCE_DIR=/path_to_your_application"
 set(JUCE_DIR $ENV{JUCE_DIR})
 add_subdirectory(${JUCE_DIR} JUCE)
@@ -18,7 +19,13 @@ juce_generate_juce_header(VolumeSlider)
 target_sources(VolumeSlider
         PRIVATE
         src/PluginEditor.cpp
+        src/PluginEditor.h
         src/PluginProcessor.cpp
+        src/PluginProcessor.h
+        src/Square.cpp
+        src/Square.h
+        src/SineWaveChannel.cpp
+        src/SineWaveChannel.h
 )
 
 target_compile_definitions(VolumeSlider

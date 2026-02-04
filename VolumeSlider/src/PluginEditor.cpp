@@ -8,6 +8,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     juce::ignoreUnused (processorRef);
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+
+    addAndMakeVisible(square);
+
     setSize (400, 300);
 }
 
@@ -29,5 +32,6 @@ void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 void AudioPluginAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    // subcomponents in your editor...
+    square.setBounds(100,100,100,100);
 }
