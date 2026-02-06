@@ -3,7 +3,7 @@
 
 //==============================================================================
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
-    : AudioProcessorEditor (&p), processorRef (p)
+    : AudioProcessorEditor (&p), processorRef (p), freqSliderAttachment(processorRef.getState(),"freqHz",frequencySlider), playButtonAttachment(processorRef.getState(),"play",playButton)
 {
     juce::ignoreUnused (processorRef);
     // Make sure that before the constructor has finished, you've set the
@@ -13,7 +13,6 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     frequencySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     frequencySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 50);
-    frequencySlider.setRange(0, 100, 1);
     addAndMakeVisible(frequencySlider);
 
     playButton.setButtonText("Playing");
@@ -49,7 +48,7 @@ void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Volume Slider!", getLocalBounds(), juce::Justification::centred, 1);
+    g.drawFittedText ("First Plugin", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void AudioPluginAudioProcessorEditor::resized()
