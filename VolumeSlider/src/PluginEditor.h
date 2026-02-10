@@ -2,6 +2,7 @@
 
 #include "PluginProcessor.h"
 #include "Square.h"
+#include <JuceHeader.h>
 
 //==============================================================================
 class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor
@@ -21,5 +22,11 @@ private:
     // access the processor object that created it.
     AudioPluginAudioProcessor& processorRef;
 
+    juce::Slider frequencySlider;
+
+    juce::TextButton playButton;
+    juce::Label frequencyLabel {"FrequencyLabel", "Frequency"};
+    juce::AudioProcessorValueTreeState::SliderAttachment freqSliderAttachment;
+    juce::AudioProcessorValueTreeState::ButtonAttachment playButtonAttachment;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };
