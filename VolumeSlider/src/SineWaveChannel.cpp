@@ -7,7 +7,10 @@
 void SineWaveChannel::prepare (const double sampleRate)
 {
     currentSampleRate = static_cast<float>(sampleRate);
-    timeIncrement = 1.0f / currentSampleRate;
+    phase = 0.0f;
+
+    smoothedFreq.reset(sampleRate, 0.2f);
+    smoothedFreq.setCurrentAndTargetValue(440.0f);
 }
 
 void SineWaveChannel::process(float* output, int numSamples)
@@ -15,7 +18,15 @@ void SineWaveChannel::process(float* output, int numSamples)
 
     for (int sample = 0; sample < numSamples; ++sample)
     {
-        output[sample] = amplitude * std::sinf(2.0f * std::numbers::pi_v<float> * frequency * currentTime);
-        currentTime += timeIncrement;
+        const float freq = smoothedFreq.getNextValue();
+        const float phaseInc =
+            juce::MathConstants<float>::twoPi * freq / currentSampleRate;
+
+        output[sample] = amplitude * std::sinf(phase);
+
+        phase += phaseInc;
+        if (phase >= juce::MathConstants<float>::twoPi)
+            phase -= juce::MathConstants<float>::twoPi;
+
     }
 }
