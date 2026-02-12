@@ -3,10 +3,12 @@ cmake_minimum_required(VERSION 3.22)
 project(VolumeSlider VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 20)
-# SET IN YOUR CLION PROFILE [ENVIRONMENT: JUCE_DIR=/path_to_your_application"
+
+# JUCE path (set in CLion profile as environment variable)
 set(JUCE_DIR $ENV{JUCE_DIR})
 add_subdirectory(${JUCE_DIR} JUCE)
 
+# ------------------- Plugin Target -------------------
 juce_add_plugin(VolumeSlider
         PLUGIN_MANUFACTURER_CODE Juce
         PLUGIN_CODE Dem0
@@ -16,20 +18,17 @@ juce_add_plugin(VolumeSlider
 
 juce_generate_juce_header(VolumeSlider)
 
+# ------------------- Plugin Sources -------------------
 target_sources(VolumeSlider
         PRIVATE
-        src/PluginEditor.cpp
-        src/PluginEditor.h
         src/PluginProcessor.cpp
-        src/PluginProcessor.h
+        src/PluginEditor.cpp
         src/Square.cpp
-        src/Square.h
         src/SineWaveChannel.cpp
-        src/SineWaveChannel.h
         src/CustomLookAndFeel.cpp
-        src/CustomLookAndFeel.h
 )
 
+# ------------------- Compile Definitions -------------------
 target_compile_definitions(VolumeSlider
         PUBLIC
         JUCE_WEB_BROWSER=0
@@ -37,6 +36,7 @@ target_compile_definitions(VolumeSlider
         JUCE_VST3_CAN_REPLACE_VST2=0
 )
 
+# ------------------- Link JUCE modules -------------------
 target_link_libraries(VolumeSlider
         PRIVATE
         juce::juce_audio_utils
@@ -44,4 +44,19 @@ target_link_libraries(VolumeSlider
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags
+)
+
+# ------------------- BinaryData for Fonts -------------------
+juce_add_binary_data(VolumeSlider_BinaryData
+        SOURCES
+        src/assets/fonts/helvetica-destru-pix.ttf
+        src/assets/fonts/AIFRAGME.TTF
+        src/assets/fonts/Metropolitan.ttf
+        src/assets/fonts/sketchmajor.ttf
+)
+
+# Link BinaryData to your actual plugin target
+target_link_libraries(VolumeSlider
+        PRIVATE
+        VolumeSlider_BinaryData
 )
