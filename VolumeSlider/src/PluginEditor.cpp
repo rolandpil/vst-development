@@ -3,11 +3,7 @@
 
 //==============================================================================
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
-    : AudioProcessorEditor(&p),
-      processorRef(p),
-      freqSliderAttachment(processorRef.getState(), "freqHz", frequencySlider),
-      gainSliderAttachment(processorRef.getState(), "gain", gainSlider),
-      playButtonAttachment(processorRef.getState(), "play", playButton)
+    : AudioProcessorEditor (&p), processorRef (p), freqSliderAttachment(processorRef.getState(),"freqHz",frequencySlider), playButtonAttachment(processorRef.getState(),"play",playButton)
 {
     //================ SLIDERS =================
     auto setupKnob = [](juce::Slider& s)
@@ -20,8 +16,30 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     setupKnob(frequencySlider);
     setupKnob(gainSlider);
 
+    frequencySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+    frequencySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 50);
     addAndMakeVisible(frequencySlider);
-    addAndMakeVisible(gainSlider);
+
+    playButton.setButtonText("Playing");
+    playButton.setToggleState(true,juce::NotificationType::dontSendNotification);
+    playButton.setClickingTogglesState(true);
+
+    playButton.setColour(juce::TextButton::ColourIds::buttonOnColourId, juce::Colours::green);
+    playButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colours::red);
+
+    playButton.onClick = [this]()
+    {
+        // Change the state of the button when it's clicked
+        const bool isPlaying = playButton.getToggleState();
+        playButton.setButtonText(isPlaying ? "Playing" : "Bypassed");
+    };
+    addAndMakeVisible(playButton);
+
+    frequencyLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(frequencyLabel);
+
+    setSize (400, 400);
+}
 
     //================ LABELS =================
     auto setupLabel = [](juce::Label& l, const juce::String& text)
@@ -82,57 +100,19 @@ void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
     g.setColour(juce::Colour(0xffffffff));
     g.fillRoundedRectangle(panel.toFloat(), 16.0f);
 
-    g.setColour(juce::Colour(0xffd0d0d0));
-    g.drawRoundedRectangle(panel.toFloat(), 16.0f, 1.5f);
+    g.setColour (juce::Colours::white);
+    g.setFont (15.0f);
+    g.drawFittedText ("First Plugin", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 //==============================================================================
 void AudioPluginAudioProcessorEditor::resized()
 {
-    constexpr int sliderSize  = 140;
-    constexpr int labelHeight = 22;
-    constexpr int padding     = 30;
+    // This is generally where you'll want to lay out the positions of any
+    // subcomponents in your editor...
+    square.setBounds(10,10,10,10);
+    frequencySlider.setBounds(getWidth() / 2 - 100,getHeight() / 2 - 100,200,200);
+    playButton.setBounds(getWidth() / 2 - 50,getHeight() / 2 + 100,100,20);
+    frequencyLabel.setBounds(getWidth() / 2 - 50,getHeight() / 2 + 130,100,20);
 
-    //================ CONTROL PANEL AREA =================
-    auto panel = getLocalBounds()
-                    .removeFromBottom(260)
-                    .reduced(40);
-
-    // Frequency (right)
-    frequencySlider.setBounds(
-        panel.getRight() - sliderSize,
-        panel.getCentreY() - sliderSize / 2,
-        sliderSize,
-        sliderSize
-    );
-
-    frequencyLabel.setBounds(
-        frequencySlider.getX(),
-        frequencySlider.getY() - labelHeight,
-        sliderSize,
-        labelHeight
-    );
-
-    // Gain (left)
-    gainSlider.setBounds(
-        frequencySlider.getX() - sliderSize - padding,
-        frequencySlider.getY(),
-        sliderSize,
-        sliderSize
-    );
-
-    gainLabel.setBounds(
-        gainSlider.getX(),
-        gainSlider.getY() - labelHeight,
-        sliderSize,
-        labelHeight
-    );
-
-    //================ BYPASS BUTTON (TOP-RIGHT) =================
-    playButton.setBounds(
-        getWidth() - 120,
-        20,
-        100,
-        36
-    );
 }
