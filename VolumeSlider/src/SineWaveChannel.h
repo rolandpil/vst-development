@@ -5,8 +5,9 @@
 #ifndef VOLUMESLIDER_SINEWAVECHANNEL_H
 #define VOLUMESLIDER_SINEWAVECHANNEL_H
 
-#include <cmath>
-#include <numbers>
+
+
+#include <JuceHeader.h>
 
 #include <JuceHeader.h>
 

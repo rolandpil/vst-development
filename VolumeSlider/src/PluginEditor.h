@@ -2,6 +2,9 @@
 
 #include "PluginProcessor.h"
 #include "Square.h"
+#include <JuceHeader.h>
+
+#include "CustomLookAndFeel.h"
 
 //==============================================================================
 class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor

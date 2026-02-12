@@ -1,10 +1,11 @@
 //
 // Created by trick on 2/3/2026.
 //
-
+#include <cmath>
+#include <numbers>
 #include "SineWaveChannel.h"
 
-void SineWaveChannel::prepare (const double sampleRate)
+void SineWaveChannel::prepare(double sampleRate)
 {
     currentSampleRate = static_cast<float>(sampleRate);
     phase = 0.0f;
@@ -15,8 +16,7 @@ void SineWaveChannel::prepare (const double sampleRate)
 
 void SineWaveChannel::process(float* output, int numSamples)
 {
-
-    for (int sample = 0; sample < numSamples; ++sample)
+    for (int i = 0; i < numSamples; ++i) // generate one sine wave at a time per each sample
     {
         const float freq = smoothedFreq.getNextValue();
         const float phaseInc =
@@ -30,3 +30,5 @@ void SineWaveChannel::process(float* output, int numSamples)
 
     }
 }
+
+

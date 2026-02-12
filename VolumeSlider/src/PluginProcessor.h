@@ -42,6 +42,7 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    juce::AudioProcessorValueTreeState& getState() {return state;}
 
     juce::AudioProcessorValueTreeState& getState() {return state;}
 
