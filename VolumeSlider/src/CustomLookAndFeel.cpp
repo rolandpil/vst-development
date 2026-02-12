@@ -1,22 +1,23 @@
 #include "CustomLookAndFeel.h"
-#include "BinaryData.h" // Make sure this include path exists
+#include "BinaryData.h"
 
 CustomLookAndFeel::CustomLookAndFeel()
 {
-    // Load the font from BinaryData (sanitized symbol names)
+    // Load your custom font from BinaryData
     auto typeface = juce::Typeface::createSystemTypefaceFor(
-        BinaryData::helveticadestrupix_ttf,
-        BinaryData::helveticadestrupix_ttfSize
+        BinaryData::Metropolitan_ttf,
+        BinaryData::Metropolitan_ttfSize
     );
 
-    // Store in uiFont for reuse
-    uiFont = juce::Font(typeface).withHeight(20.0f);
+    uiFont = juce::Font(typeface).withHeight(14.0f);
 
-    // Optional: customize slider, button, etc. colours here
+    // Slider colors
     setColour(juce::Slider::thumbColourId, juce::Colours::darkgrey);
     setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::white);
+
+    // Button colors
     setColour(juce::TextButton::buttonColourId, juce::Colours::darkred);
-    setColour(juce::TextButton::buttonOnColourId, juce::Colours::seagreen);
+    setColour(juce::TextButton::buttonOnColourId, juce::Colour::fromHSV(0.75f, 0.5f, 0.7f, 1.0f)); // purple-ish
 }
 
 //----------------------------- ROTARY SLIDER -----------------------------
@@ -25,7 +26,7 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
                                          float sliderPos,
                                          float rotaryStartAngle,
                                          float rotaryEndAngle,
-                                         juce::Slider& slider)
+                                         juce::Slider&)
 {
     auto radius  = juce::jmin(width, height) / 2.0f - 6.0f;
     auto centreX = x + width  * 0.5f;
@@ -39,24 +40,33 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
     // Knob indicator
     juce::Path p;
     p.addRectangle(-2.0f, -radius, 4.0f, radius * 0.6f);
-
     g.setColour(juce::Colours::white);
-    g.fillPath(p, juce::AffineTransform::rotation(angle)
-                       .translated(centreX, centreY));
+    g.fillPath(p, juce::AffineTransform::rotation(angle).translated(centreX, centreY));
 }
 
 //----------------------------- FONTS -----------------------------
 juce::Font CustomLookAndFeel::getLabelFont(juce::Label&)
 {
-    return uiFont;
+    return uiFont.withHeight(30.0f);
 }
 
 juce::Font CustomLookAndFeel::getTextButtonFont(juce::TextButton&, int)
 {
-    return uiFont.withHeight(13.0f);
+    return uiFont.withHeight(30.0f);
 }
 
-juce::Font CustomLookAndFeel::getSliderTextBoxFont(juce::Slider&)
+//----------------------------- SLIDER LAYOUT -----------------------------
+juce::Slider::SliderLayout CustomLookAndFeel::getSliderLayout(juce::Slider& slider)
 {
-    return uiFont.withHeight(12.0f);
+    juce::Slider::SliderLayout layout;
+
+    // Knob takes full bounds
+    layout.sliderBounds = slider.getLocalBounds();
+
+    // Text box centered below knob
+    layout.textBoxBounds = slider.getLocalBounds()
+                                .withSizeKeepingCentre(80, 22)
+                                .withY(slider.getHeight() - 25);
+
+    return layout;
 }

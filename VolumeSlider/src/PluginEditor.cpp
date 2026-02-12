@@ -42,10 +42,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     playButton.setToggleState(true, juce::dontSendNotification);
     playButton.setButtonText("On");
 
-    playButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::seagreen);
-    playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkred);
-    playButton.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
-    playButton.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
+    // playButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::seagreen);
+    // playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkred);
+    // playButton.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
+    // playButton.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
 
     playButton.onClick = [this]()
     {

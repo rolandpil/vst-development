@@ -51,6 +51,9 @@ private:
     std::atomic<float>* frequencyParam;
     std::atomic<float>* gainParam;
     std::atomic<float>* playParam;
+    juce::LinearSmoothedValue<float> gainEx;
+    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> smoothedGain;
+
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)

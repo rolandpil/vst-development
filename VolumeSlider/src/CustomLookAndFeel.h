@@ -7,6 +7,7 @@ public:
     CustomLookAndFeel();
     ~CustomLookAndFeel() override = default;
 
+    // Rotary slider
     void drawRotarySlider(juce::Graphics& g,
                           int x, int y, int width, int height,
                           float sliderPos,
@@ -14,9 +15,12 @@ public:
                           float rotaryEndAngle,
                           juce::Slider& slider) override;
 
-    juce::Font getLabelFont(juce::Label& l) override;
-    juce::Font getTextButtonFont(juce::TextButton& b, int buttonHeight) override;
-    juce::Font getSliderTextBoxFont(juce::Slider& s);  // <-- MUST be here
+    // Fonts
+    juce::Font getLabelFont(juce::Label& label) override;
+    juce::Font getTextButtonFont(juce::TextButton& button, int buttonHeight) override;
+
+    // Custom slider layout to control textbox size & position
+    juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override;
 
 private:
     juce::Font uiFont;

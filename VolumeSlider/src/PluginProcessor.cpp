@@ -85,6 +85,8 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate, int samplesPerB
     gainParam = state.getRawParameterValue("gain");
 
     playParam = state.getRawParameterValue("play");
+    smoothedGain.reset(sampleRate, 0.02f);
+    smoothedGain.setCurrentAndTargetValue(0.5f);
 }
 
 void AudioPluginAudioProcessor::releaseResources() {
@@ -127,6 +129,7 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear(i, 0, buffer.getNumSamples());
 
+    smoothedGain.setTargetValue(gainParam->load());
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel) {
         auto *channelData = buffer.getWritePointer(channel);
@@ -146,8 +149,11 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
         sineWaves[channel].process(output, buffer.getNumSamples());
 
     }
-    const float gain = gainParam->load();
-    buffer.applyGain(gain);
+    // Option 2: use JUCE applyGainRamp (simpler)
+    buffer.applyGainRamp(0, buffer.getNumSamples(),
+                         smoothedGain.getCurrentValue(),
+                         gainParam->load());
+    smoothedGain.setCurrentAndTargetValue(gainParam->load());
 }
 
 //==============================================================================
