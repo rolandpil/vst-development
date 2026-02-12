@@ -60,3 +60,6 @@ target_link_libraries(VolumeSlider
         PRIVATE
         VolumeSlider_BinaryData
 )
+
+# VST3 SDK path
+set(JUCE_VST3_SDK_PATH $ENV{VST3SDK_DIR})
