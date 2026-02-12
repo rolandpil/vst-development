@@ -55,6 +55,9 @@ juce_add_binary_data(VolumeSlider_BinaryData
         src/assets/fonts/sketchmajor.ttf
 )
 
+# VST3 SDK path
+set(JUCE_VST3_SDK_PATH $ENV{VST3SDK_DIR})
+
 # Link BinaryData to your actual plugin target
 target_link_libraries(VolumeSlider
         PRIVATE
