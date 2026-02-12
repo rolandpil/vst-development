@@ -42,7 +42,6 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
     juce::AudioProcessorValueTreeState& getState() {return state;}
 
 private:
@@ -50,6 +49,7 @@ private:
     juce::AudioProcessorValueTreeState state;
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
     std::atomic<float>* frequencyParam;
+    std::atomic<float>* gainParam;
     std::atomic<float>* playParam;
 
     //==============================================================================

@@ -26,6 +26,8 @@ target_sources(VolumeSlider
         src/Square.h
         src/SineWaveChannel.cpp
         src/SineWaveChannel.h
+        src/CustomLookAndFeel.cpp
+        src/CustomLookAndFeel.h
 )
 
 target_compile_definitions(VolumeSlider

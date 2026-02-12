@@ -1,66 +1,138 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-
 //==============================================================================
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
-    : AudioProcessorEditor (&p), processorRef (p), freqSliderAttachment (processorRef.getState(), "freqHz", frequencySlider),
-playButtonAttachment (processorRef.getState(), "play" , playButton)
+    : AudioProcessorEditor(&p),
+      processorRef(p),
+      freqSliderAttachment(processorRef.getState(), "freqHz", frequencySlider),
+      gainSliderAttachment(processorRef.getState(), "gain", gainSlider),
+      playButtonAttachment(processorRef.getState(), "play", playButton)
 {
-    juce::ignoreUnused (processorRef);
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+    //================ SLIDERS =================
+    auto setupKnob = [](juce::Slider& s)
+    {
+        s.setSliderStyle(juce::Slider::RotaryVerticalDrag);
+        s.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 70, 22);
+        s.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
+    };
 
-    addAndMakeVisible(square);
+    setupKnob(frequencySlider);
+    setupKnob(gainSlider);
 
-    frequencySlider.setSliderStyle (juce::Slider::SliderStyle::RotaryVerticalDrag);
-    frequencySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 50);
     addAndMakeVisible(frequencySlider);
+    addAndMakeVisible(gainSlider);
 
+    //================ LABELS =================
+    auto setupLabel = [](juce::Label& l, const juce::String& text)
+    {
+        l.setText(text, juce::dontSendNotification);
+        l.setJustificationType(juce::Justification::centred);
+        l.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
+    };
 
-    playButton.setButtonText("Playing");
-    playButton.setToggleState(true, juce::NotificationType::dontSendNotification);
+    setupLabel(frequencyLabel, "Frequency");
+    setupLabel(gainLabel, "Gain");
+
+    addAndMakeVisible(frequencyLabel);
+    addAndMakeVisible(gainLabel);
+
+    //================ BYPASS BUTTON =================
     playButton.setClickingTogglesState(true);
-    playButton.setColour(juce::TextButton::ColourIds::buttonOnColourId, juce::Colours::green);
-    playButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colours::red);
+    playButton.setToggleState(true, juce::dontSendNotification);
+    playButton.setButtonText("On");
+
+    playButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::seagreen);
+    playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkred);
+    playButton.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
+    playButton.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
 
     playButton.onClick = [this]()
     {
-        const bool isPlaying = playButton.getToggleState();
-        playButton.setButtonText(isPlaying ? "Playing" : "Bypassed");
-
+        playButton.setButtonText(
+            playButton.getToggleState() ? "On" : "Bypass"
+        );
     };
+
     addAndMakeVisible(playButton);
-    addAndMakeVisible(frequencyLabel);
-    frequencyLabel.setJustificationType(juce::Justification::centred);
 
+    //================ WINDOW =================
+    customLookAndFeel = std::make_unique<CustomLookAndFeel>();
 
-    setSize (600, 600);
-}
+    // Apply to entire editor (recommended)
+    setLookAndFeel(customLookAndFeel.get());
 
-AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
-{
+    setSize(600, 600);}
+
+AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {
+    setLookAndFeel(nullptr);
 }
 
 //==============================================================================
 void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    // Background
+    g.fillAll(juce::Colour(0xfff2f2f2));
 
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    // g.drawFittedText("Volume Slider!", getLocalBounds(), juce::Justification::centred, 1);
+    // Control panel
+    auto panel = getLocalBounds()
+                    .removeFromBottom(260)
+                    .reduced(40);
+
+    g.setColour(juce::Colour(0xffffffff));
+    g.fillRoundedRectangle(panel.toFloat(), 16.0f);
+
+    g.setColour(juce::Colour(0xffd0d0d0));
+    g.drawRoundedRectangle(panel.toFloat(), 16.0f, 1.5f);
 }
 
+//==============================================================================
 void AudioPluginAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor...
-    square.setBounds(100,100,100,100);
-    frequencySlider.setBounds(getWidth() / 2 - 50,getWidth() / 2 - 50,200,200);
-    frequencyLabel.setBounds(getWidth() / 2 - 50,getWidth() / 2 - 100,100,50);
+    constexpr int sliderSize  = 140;
+    constexpr int labelHeight = 22;
+    constexpr int padding     = 30;
 
-    playButton.setBounds(getWidth() / 2 - 50,getHeight() - 100,100,50);
+    //================ CONTROL PANEL AREA =================
+    auto panel = getLocalBounds()
+                    .removeFromBottom(260)
+                    .reduced(40);
 
+    // Frequency (right)
+    frequencySlider.setBounds(
+        panel.getRight() - sliderSize,
+        panel.getCentreY() - sliderSize / 2,
+        sliderSize,
+        sliderSize
+    );
+
+    frequencyLabel.setBounds(
+        frequencySlider.getX(),
+        frequencySlider.getY() - labelHeight,
+        sliderSize,
+        labelHeight
+    );
+
+    // Gain (left)
+    gainSlider.setBounds(
+        frequencySlider.getX() - sliderSize - padding,
+        frequencySlider.getY(),
+        sliderSize,
+        sliderSize
+    );
+
+    gainLabel.setBounds(
+        gainSlider.getX(),
+        gainSlider.getY() - labelHeight,
+        sliderSize,
+        labelHeight
+    );
+
+    //================ BYPASS BUTTON (TOP-RIGHT) =================
+    playButton.setBounds(
+        getWidth() - 120,
+        20,
+        100,
+        36
+    );
 }

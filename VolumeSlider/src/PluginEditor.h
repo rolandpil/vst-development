@@ -4,6 +4,8 @@
 #include "Square.h"
 #include <JuceHeader.h>
 
+#include "CustomLookAndFeel.h"
+
 //==============================================================================
 class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor
 {
@@ -23,10 +25,15 @@ private:
     AudioPluginAudioProcessor& processorRef;
 
     juce::Slider frequencySlider;
+    juce::Slider gainSlider;
 
     juce::TextButton playButton;
     juce::Label frequencyLabel {"FrequencyLabel", "Frequency"};
+    juce::Label gainLabel {"GainLabel", "Gain"};
     juce::AudioProcessorValueTreeState::SliderAttachment freqSliderAttachment;
+    juce::AudioProcessorValueTreeState::SliderAttachment gainSliderAttachment;
     juce::AudioProcessorValueTreeState::ButtonAttachment playButtonAttachment;
+    std::unique_ptr<CustomLookAndFeel> customLookAndFeel;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };

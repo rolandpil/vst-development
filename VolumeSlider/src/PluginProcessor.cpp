@@ -82,6 +82,8 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate, int samplesPerB
         wave.prepare(sampleRate);
     }
     frequencyParam = state.getRawParameterValue("freqHz");
+    gainParam = state.getRawParameterValue("gain");
+
     playParam = state.getRawParameterValue("play");
 }
 
@@ -142,7 +144,10 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
             sineWaves[c].setAmplitude(shouldBePlaying ? 0.4f : 0.0f); // 1.0 = play 0.0 = bypass
         }
         sineWaves[channel].process(output, buffer.getNumSamples());
+
     }
+    const float gain = gainParam->load();
+    buffer.applyGain(gain);
 }
 
 //==============================================================================
@@ -185,6 +190,12 @@ AudioPluginAudioProcessor::createParameters()
         juce::NormalisableRange<float>(20.0f, 20000.0f),
         220.0f
     ));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(
+       juce::ParameterID { "gain", 1 },
+       "Gain",
+       juce::NormalisableRange<float>(0.0f, 1.0f),
+       0.5f
+   ));
 
     layout.add(std::make_unique<juce::AudioParameterBool>(
         juce::ParameterID { "play", 1 },
