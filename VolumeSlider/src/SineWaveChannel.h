@@ -9,6 +9,8 @@
 
 #include <JuceHeader.h>
 
+#include <JuceHeader.h>
+
 
 class SineWaveChannel
 {
@@ -17,19 +19,17 @@ public:
     void process (float* output, int numSamples);
 
     [[nodiscard]] float getAmplitude() const {return amplitude;}
-    [[nodiscard]] float getFrequency() const
-    {
-        return smoothedFreq.getTargetValue();
-    }
+    [[nodiscard]] float getFrequency() {return smoothedFreq.getTargetValue();}
     void setAmplitude(const float newAmplitude) {amplitude = newAmplitude;}
-    void setFrequency(const float newFrequency) {smoothedFreq.setTargetValue(newFrequency); }
+    void setFrequency(const float newFrequency) {smoothedFreq.setTargetValue(newFrequency);}
 
 private:
-    float amplitude = 20.00f;
+    float amplitude = 0.05f;
     float currentSampleRate = 0.0f;
+    float timeIncrement = 0.0f;
+    float currentTime = 0.0f;
     float phase = 0.0f;
-    juce::LinearSmoothedValue<float> ex1;
-    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Multiplicative> smoothedFreq; // better for freq than linear smoothed value
+    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Multiplicative> smoothedFreq;
 };
 
 
