@@ -86,7 +86,8 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate, int samplesPerB
 
     playParam = state.getRawParameterValue("play");
     smoothedGain.reset(sampleRate, 0.02f);
-    smoothedGain.setCurrentAndTargetValue(0.5f);
+    const float convertInitialGainDbToFloat = juce::Decibels::decibelsToGain(gainParam->load());
+    smoothedGain.setCurrentAndTargetValue(convertInitialGainDbToFloat);
 }
 
 void AudioPluginAudioProcessor::releaseResources() {
@@ -116,45 +117,38 @@ bool AudioPluginAudioProcessor::isBusesLayoutSupported(const BusesLayout &layout
     return true;
 #endif
 }
-
-void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
-                                             juce::MidiBuffer &midiMessages) {
-    juce::ignoreUnused(midiMessages);
-
+void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
+                                             juce::MidiBuffer&)
+{
     juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
+
+    const int numChannels = getTotalNumOutputChannels();
+    const int numSamples  = buffer.getNumSamples();
+
+    const float freq = frequencyParam->load();
+    const bool shouldBePlaying = static_cast<bool>(playParam->load());
+
+    const float gainLinear = juce::Decibels::decibelsToGain(gainParam->load());
+    smoothedGain.setTargetValue(gainLinear);
 
 
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear(i, 0, buffer.getNumSamples());
-
-    smoothedGain.setTargetValue(gainParam->load());
-
-    for (int channel = 0; channel < totalNumInputChannels; ++channel) {
-        auto *channelData = buffer.getWritePointer(channel);
-        juce::ignoreUnused(channelData);
-        auto *output = buffer.getWritePointer(channel);
-
-        const float freq = frequencyParam->load();
-        bool shouldBePlaying = static_cast<bool>(playParam->load());
-
-
-        for (int c= 0; c < totalNumInputChannels; ++c)
-        {
-
-            sineWaves[c].setFrequency(freq);
-            sineWaves[c].setAmplitude(shouldBePlaying ? 0.4f : 0.0f); // 1.0 = play 0.0 = bypass
-        }
-        sineWaves[channel].process(output, buffer.getNumSamples());
-
+    // Generate signal
+    for (int channel = 0; channel < numChannels; ++channel) {
+        sineWaves[channel].setFrequency(freq);
+        sineWaves[channel].setAmplitude(shouldBePlaying ? 0.4f : 0.0f);
+        sineWaves[channel].process(buffer.getWritePointer(channel), numSamples);
     }
-    // Option 2: use JUCE applyGainRamp (simpler)
-    buffer.applyGainRamp(0, buffer.getNumSamples(),
-                         smoothedGain.getCurrentValue(),
-                         gainParam->load());
-    smoothedGain.setCurrentAndTargetValue(gainParam->load());
+
+    // Apply smoothed gain
+    for (int sample = 0; sample < numSamples; ++sample)
+    {
+        float gain = smoothedGain.getNextValue();
+
+        for (int channel = 0; channel < numChannels; ++channel)
+            buffer.getWritePointer(channel)[sample] *= gain;
+    }
 }
+
 
 //==============================================================================
 bool AudioPluginAudioProcessor::hasEditor() const {
@@ -197,11 +191,12 @@ AudioPluginAudioProcessor::createParameters()
         220.0f
     ));
     layout.add(std::make_unique<juce::AudioParameterFloat>(
-       juce::ParameterID { "gain", 1 },
-       "Gain",
-       juce::NormalisableRange<float>(0.0f, 1.0f),
-       0.5f
-   ));
+        juce::ParameterID { "gain", 1 },
+        "Gain",
+        juce::NormalisableRange<float>(-60.0f, 6.0f, 0.01f),
+        -6.0f,
+        " dB"
+    ));
 
     layout.add(std::make_unique<juce::AudioParameterBool>(
         juce::ParameterID { "play", 1 },
