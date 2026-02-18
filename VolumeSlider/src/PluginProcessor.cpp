@@ -131,13 +131,12 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     const float gainLinear = juce::Decibels::decibelsToGain(gainParam->load());
     smoothedGain.setTargetValue(gainLinear);
 
-
-    // Generate signal
-    for (int channel = 0; channel < numChannels; ++channel) {
-        sineWaves[channel].setFrequency(freq);
-        sineWaves[channel].setAmplitude(shouldBePlaying ? 0.4f : 0.0f);
-        sineWaves[channel].process(buffer.getWritePointer(channel), numSamples);
-    }
+    // // Generate signal
+    // for (int channel = 0; channel < numChannels; ++channel) {
+    //     sineWaves[channel].setFrequency(freq);
+    //     sineWaves[channel].setAmplitude(shouldBePlaying ? 0.4f : 0.0f);
+    //     sineWaves[channel].process(buffer.getWritePointer(channel), numSamples);
+    // }
 
     // Apply smoothed gain
     for (int sample = 0; sample < numSamples; ++sample)
@@ -148,7 +147,6 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
             buffer.getWritePointer(channel)[sample] *= gain;
     }
 }
-
 
 //==============================================================================
 bool AudioPluginAudioProcessor::hasEditor() const {
