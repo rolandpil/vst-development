@@ -3,9 +3,14 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
-  <component name="CMakePresetLoader"><![CDATA[{
-  "useNewFormat": true
-}]]></component>
+  <component name="BackendCodeEditorMiscSettings">
+    <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
+    <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
   <component name="CMakeProjectFlavorService">
     <option name="flavorId" value="CMakePlainProjectFlavor" />
   </component>
@@ -13,27 +18,34 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated />
+    <generated>
+      <config projectName="VolumeSlider" targetName="VolumeSlider" folderName="VolumeSlider" />
+      <config projectName="VolumeSlider" targetName="VolumeSlider_vst3_helper" />
+      <config projectName="VolumeSlider" targetName="VolumeSlider_BinaryData" />
+      <config projectName="VolumeSlider" targetName="VolumeSlider_Standalone" folderName="VolumeSlider" />
+      <config projectName="VolumeSlider" targetName="VolumeSlider_All" folderName="VolumeSlider" />
+      <config projectName="VolumeSlider" targetName="VolumeSlider_rc_lib" />
+      <config projectName="VolumeSlider" targetName="VolumeSlider_VST3" folderName="VolumeSlider" />
+    </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
-      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" GENERATION_OPTIONS="-DJUCE_DIR=C:\JUCE">
+        <ADDITIONAL_GENERATION_ENVIRONMENT>
+          <envs>
+            <env name="JUCE_DIR" value="C:\JUCE" />
+            <env name="VST3SDK_DIR" value="C:\JUCE\extras\VST3" />
+          </envs>
+        </ADDITIONAL_GENERATION_ENVIRONMENT>
+      </configuration>
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4340623-2dad-4fd0-8ac4-cde61b2f0465" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/.idea/VolumeSlider.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/.idea/editor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/PluginEditor.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/PluginEditor.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/PluginProcessor.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VolumeSlider/PluginProcessor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VolumeSlider/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/VolumeSlider/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VolumeSlider/src/PluginProcessor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/VolumeSlider/src/PluginProcessor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VolumeSlider/src/PluginProcessor.h" beforeDir="false" afterPath="$PROJECT_DIR$/VolumeSlider/src/PluginProcessor.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,27 +55,28 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "nickosullivan5"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;nickosullivan5&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/rolandpil/vst-development/",
-    "accountId": "eadf2c62-2853-4d40-b4f4-9d036c6e87a1"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/rolandpil/vst-development/&quot;,
+    &quot;accountId&quot;: &quot;eadf2c62-2853-4d40-b4f4-9d036c6e87a1&quot;
   }
-}]]></component>
+}</component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="g6EWNTWO" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="38JYgZx31oEJ7k4BrHrKtvbX6pj" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -71,6 +84,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "CMake Application.VolumeSlider_Standalone.executor": "Run",
     "RunOnceActivity.RadMigrateCodeStyle": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -82,10 +96,11 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "SAVENICKSWORK",
     "last_opened_file_path": "/Users/nicholasosullivan/CLionProjects/vst-development",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "settings.editor.selected.configurable": "CMakeSettings",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -94,12 +109,56 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+  <component name="RunManager" selected="CMake Application.VolumeSlider_Standalone">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VolumeSlider" type="CMakeRunConfiguration" factoryName="Application" folderName="VolumeSlider" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VolumeSlider" TARGET_NAME="VolumeSlider" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="VolumeSlider_All" type="CMakeRunConfiguration" factoryName="Application" folderName="VolumeSlider" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VolumeSlider" TARGET_NAME="VolumeSlider_All" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VolumeSlider_BinaryData" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VolumeSlider" TARGET_NAME="VolumeSlider_BinaryData" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VolumeSlider_Standalone" type="CMakeRunConfiguration" factoryName="Application" folderName="VolumeSlider" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VolumeSlider" TARGET_NAME="VolumeSlider_Standalone" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="VolumeSlider" RUN_TARGET_NAME="VolumeSlider_Standalone">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VolumeSlider_VST3" type="CMakeRunConfiguration" factoryName="Application" folderName="VolumeSlider" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VolumeSlider" TARGET_NAME="VolumeSlider_VST3" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VolumeSlider_rc_lib" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VolumeSlider" TARGET_NAME="VolumeSlider_rc_lib" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VolumeSlider_vst3_helper" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VolumeSlider" TARGET_NAME="VolumeSlider_vst3_helper" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="VolumeSlider" RUN_TARGET_NAME="VolumeSlider_vst3_helper">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.VolumeSlider" />
+      <item itemvalue="CMake Application.VolumeSlider_All" />
+      <item itemvalue="CMake Application.VolumeSlider_Standalone" />
+      <item itemvalue="CMake Application.VolumeSlider_VST3" />
+      <item itemvalue="CMake Application.VolumeSlider_BinaryData" />
+      <item itemvalue="CMake Application.VolumeSlider_rc_lib" />
+      <item itemvalue="CMake Application.VolumeSlider_vst3_helper" />
+    </list>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

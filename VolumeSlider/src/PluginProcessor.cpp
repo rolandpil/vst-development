@@ -75,7 +75,7 @@ void AudioPluginAudioProcessor::changeProgramName(int index, const juce::String 
 void AudioPluginAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    juce::ignoreUnused(sampleRate, samplesPerBlock);
+
     sineWaves.resize(getTotalNumOutputChannels());
 
     for (auto &wave: sineWaves) {
@@ -88,6 +88,17 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate, int samplesPerB
     smoothedGain.reset(sampleRate, 0.02f);
     const float convertInitialGainDbToFloat = juce::Decibels::decibelsToGain(gainParam->load());
     smoothedGain.setCurrentAndTargetValue(convertInitialGainDbToFloat);
+
+    juce::dsp::ProcessSpec spec;
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = getTotalNumOutputChannels();
+
+    lowPassFilter.prepare(spec);
+
+    // Initial cutoff (use oscillator frequency as default if you want)
+    lowPassFilter.state =
+        juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 1000.0f);
 }
 
 void AudioPluginAudioProcessor::releaseResources() {
@@ -138,6 +149,17 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
         sineWaves[channel].setAmplitude(shouldBePlaying ? 0.4f : 0.0f);
         sineWaves[channel].process(buffer.getWritePointer(channel), numSamples);
     }
+
+    // Update filter cutoff (optional: tie to freq or make separate param)
+    lowPassFilter.state =
+        juce::dsp::IIR::Coefficients<float>::makeLowPass(getSampleRate(), 250.0f);
+
+    // Wrap buffer for DSP
+    juce::dsp::AudioBlock<float> block (buffer);
+    juce::dsp::ProcessContextReplacing<float> context (block);
+
+    // Apply filter
+    lowPassFilter.process(context);
 
     // Apply smoothed gain
     for (int sample = 0; sample < numSamples; ++sample)
